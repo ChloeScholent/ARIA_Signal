@@ -1,0 +1,8 @@
+numpy
+matplotlib
+scipy
+sporco
+statsmodels
+ruptures
+scikit-learn
+
