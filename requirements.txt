@@ -6,5 +6,5 @@ statsmodels
 ruptures
 scikit-learn
 pydub
-
+cupy
 

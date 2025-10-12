@@ -59,9 +59,9 @@ for file in os.listdir(folder):
     # plt.title('$|X[k]|^2$')
     # plt.show()
 
-    # Band-pass filter
-    fc=(4150,4550)
-    y=band_pass_filter(x,fc,Fs)
+    # # Band-pass filter
+    # fc=(4150,4550)
+    # y=band_pass_filter(x,fc,Fs)
 
     # Plot in the time domain
     # plt.figure("Band-pass filter - Time domain")
@@ -72,10 +72,10 @@ for file in os.listdir(folder):
     # plt.legend(('Original signal', 'Filtered signal'))
     # plt.show()
 
-    output_file = f'{new_folder}filtered_{name}{ext}'
-    # Normalize to 16-bit range for audio
-    y_norm = np.int16((y / np.max(np.abs(y))) * 32767)
-    wavfile.write(output_file, Fs, y_norm)
+    # output_file = f'{new_folder}filtered_{name}{ext}'
+    # # Normalize to 16-bit range for audio
+    # y_norm = np.int16((y / np.max(np.abs(y))) * 32767)
+    # wavfile.write(output_file, Fs, y_norm)
 
 
 

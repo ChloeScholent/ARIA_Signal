@@ -2,3 +2,7 @@ parcoursIA-main/
 dataset/
 env/
 filtered_dataset/
+
+.git
+.vscode
+__pycach__/
