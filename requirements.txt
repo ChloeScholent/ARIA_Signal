@@ -7,4 +7,4 @@ ruptures
 scikit-learn
 pydub
 cupy
-
+stumpy[gpu]
