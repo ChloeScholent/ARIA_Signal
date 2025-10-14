@@ -1,67 +1,72 @@
-import numpy as np
+import cupy as cp
 from scipy.io import wavfile
-from scipy import signal
-from matplotlib import pyplot as plt
-import os
-import numpy as np
-from matplotlib import pyplot as plt
-from scipy.spatial import distance
-from scipy.signal import find_peaks
+import matplotlib.pyplot as plt
 import time
 
-
-# Computes the matrix profile according to the normalized Euclidean distance
-def matrix_profile(x,w):
-    N=np.size(x)
-    d=np.inf*np.ones((N-w,))
-    for i in range(N-w):
-        x_=x[i:i+w]
-        c=fast_distance_profile_nEUC(x,x_)
-        c[np.maximum(0,int(i-w)):np.minimum(N-w,int(i+w))]=np.inf
-        d=np.minimum(d,c)
+# GPU version of matrix profile
+def matrix_profile(x, w):
+    N = x.size
+    d = cp.inf * cp.ones((N - w,))
+    for i in range(N - w):
+        x_ = x[i:i + w]
+        c = fast_distance_profile_nEUC(x, x_)
+        c[cp.maximum(0, int(i - w)):cp.minimum(N - w, int(i + w))] = cp.inf
+        d = cp.minimum(d, c)
     return d
 
-# Optimized implementation of sliding Euclidean distance with Mueen's algorithm
 def fast_distance_profile_nEUC(x, p):
-    c = np.cumsum(np.concatenate(([0], x)))
-    c2 = np.cumsum(np.concatenate(([0], x)) ** 2)
-    N = np.size(x)
-    Np = np.size(p)
+    c = cp.cumsum(cp.concatenate(([0], x)))
+    c2 = cp.cumsum(cp.concatenate(([0], x)) ** 2)
+    N = x.size
+    Np = p.size
 
-    std_p = np.std(p)
+    std_p = cp.std(p)
     if std_p == 0:
-        # If the segment is constant, return a vector of infinities
-        return np.inf * np.ones(N - Np)
+        return cp.inf * cp.ones(N - Np)
 
-    p_ = (p - np.mean(p)) / std_p
-    p__ = np.zeros((N,))
-    p__[0:Np] = np.flip(p_)
-    r = np.real(np.fft.ifft(np.multiply(np.fft.fft(x), np.fft.fft(p__))))
-    vari = np.sqrt(Np * (c2[Np:-1] - c2[:N - Np]) - (c[Np:-1] - c[:N - Np]) ** 2)
-    d = np.sqrt(np.maximum(2 * Np * (1 - np.divide(r[Np - 1:N - 1], vari)), 0))
+    p_ = (p - cp.mean(p)) / std_p
+    p__ = cp.zeros((N,))
+    p__[0:Np] = cp.flip(p_)
+
+    # FFT-based correlation on GPU
+    r = cp.real(cp.fft.ifft(cp.multiply(cp.fft.fft(x), cp.fft.fft(p__))))
+    vari = cp.sqrt(Np * (c2[Np:-1] - c2[:N - Np]) - (c[Np:-1] - c[:N - Np]) ** 2)
+    d = cp.sqrt(cp.maximum(2 * Np * (1 - cp.divide(r[Np - 1:N - 1], vari)), 0))
     return d
 
-
-sample_rate, audio_data = wavfile.read("filtered_dataset/filtered_mono_XC707455.wav")
+# Load audio
+sample_rate, audio_data = wavfile.read("dynamically_filtered_dataset/dynamic_mono_XC1029284.wav")
 Fs = sample_rate
-x = audio_data
-N = np.size(x)
-t=np.arange(N)/Fs
 
-# Computation and plot of the matrix profile
-L=1
-m=matrix_profile(x,L)
+# Convert to mono if stereo
+if len(audio_data.shape) > 1:
+    audio_data = audio_data.mean(axis=1)
+
+# Transfer data to GPU
+x = cp.asarray(audio_data.astype(cp.float32))
+N = x.size
+
+L = 0.14  # seconds
+w = int(L * Fs)
+
+print(f"Running matrix profile on GPU (window = {w} samples)...")
+start = time.time()
+m = matrix_profile(x, w)
+cp.cuda.Stream.null.synchronize()  # wait for GPU to finish
+print(f"✅ Done in {time.time() - start:.2f} s")
+
+# Transfer result back to CPU for plotting
+m_cpu = cp.asnumpy(m)
+x_cpu = cp.asnumpy(x)
 
 plt.figure("Matrix profile")
-plt.subplot(2,1,1)
-plt.plot(x)
-plt.xlim([0,np.size(x)])
-plt.ylabel('Input signal')
-plt.subplot(2,1,2)
-plt.plot(m)
-plt.xlim([0,np.size(x)])
-plt.ylabel('Matrix Profile')
-ind=np.argmin(m)
-plt.plot(ind,m[ind],'*r')
-plt.legend(("Matrix profile","Minimum matrix profile value"))
+plt.subplot(2, 1, 1)
+plt.plot(x_cpu)
+plt.ylabel("Input signal")
+plt.subplot(2, 1, 2)
+plt.plot(m_cpu)
+plt.ylabel("Matrix Profile")
+ind = m_cpu.argmin()
+plt.plot(ind, m_cpu[ind], "*r")
+plt.legend(("Matrix profile", "Minimum matrix profile value"))
 plt.show()

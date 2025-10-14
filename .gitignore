@@ -2,7 +2,8 @@ parcoursIA-main/
 dataset/
 env/
 filtered_dataset/
-
+dynamically_filtered_dataset/
+test/
 .git
 .vscode
 __pycach__/

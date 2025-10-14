@@ -22,6 +22,7 @@ def band_pass_filter(x, fc, Fs):
     b, a = signal.butter(4, wc, btype='bandpass')
     y = signal.filtfilt(b, a, x)
     return y
+    
 folder = "dataset/"
 new_folder = "filtered_dataset/"
 
@@ -41,7 +42,7 @@ for file in os.listdir(folder):
     plt.xlim((-Fs/2,Fs/2))
     plt.xlabel('Frequency (Hz)')
     plt.title('$|X[k]|^2$')
-    plt.show()
+    # plt.show()
 
     # Band-pass filter
     fc=(4000,5500)
@@ -53,7 +54,7 @@ for file in os.listdir(folder):
     plt.xlim((0,(N-1)/Fs))
     plt.xlabel('Time (seconds)')
     plt.legend(('Original signal', 'Filtered signal'))
-    plt.show()
+    # plt.show()
 
     output_file = f'{new_folder}{name}{ext}'
     # Normalize to 16-bit range for audio
