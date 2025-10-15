@@ -5,7 +5,7 @@ from matplotlib import pyplot as plt
 import os
 
 folder = "dataset/"
-file_path = "dynamically_filtered_dataset/dynamic_mono_XC1029284.wav"
+file_path = "trimmed_audio/dynamic_mono_XC77547.wav"
 # for file in os.listdir(folder):
 #     file_path = os.path.join(folder, file)
 #     name, ext = os.path.splitext(file)

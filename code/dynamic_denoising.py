@@ -56,7 +56,7 @@ def dynamic_band_pass_filter(x, Fs, threshold_ratio=0.4, margin_hz=50, exclude_b
     return y, fc
 
 
-folder = "trimmed_audio/"
+folder = "dataset/"
 new_folder = "dynamically_filtered_dataset/"
 
 for file in os.listdir(folder):

@@ -8,3 +8,4 @@ scikit-learn
 pydub
 stumpy[gpu]
 ffmpeg-python
+soundfile
