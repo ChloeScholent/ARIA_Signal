@@ -2,6 +2,7 @@ import cupy as cp
 import numpy as np
 from matplotlib import pyplot as plt
 from scipy.io import wavfile
+import os
 
 # ===========================================================
 #             GPU Dictionary Learning with CuPy
