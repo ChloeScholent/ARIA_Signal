@@ -56,7 +56,7 @@ def dynamic_band_pass_filter(x, Fs, threshold_ratio=0.4, margin_hz=50, exclude_b
     return y, fc
 
 
-folder = "dataset/"
+folder = "trimmed_audio/"
 new_folder = "dynamically_filtered_dataset/"
 
 for file in os.listdir(folder):
@@ -69,40 +69,29 @@ for file in os.listdir(folder):
     t=np.arange(N)/Fs
 
     y, fc = dynamic_band_pass_filter(x, Fs, threshold_ratio=0.2, exclude_above=8000)
-
-    plt.figure(figsize=(10, 5))
-    plt.subplot(2, 1, 1)
-    plt.magnitude_spectrum(x, Fs=Fs, color='gray', label='Original')
-    plt.title("Original spectrum")
-
-    plt.subplot(2, 1, 2)
-    plt.magnitude_spectrum(y, Fs=Fs, color='green', label='Filtered')
-    plt.title(f"Dynamic Band-Pass Filtered Signal\n(f_low={fc[0]:.1f} Hz, f_high={fc[1]:.1f} Hz)")
-    plt.tight_layout()
-    plt.show()
     
     y, fc = dynamic_band_pass_filter(y, Fs)
 
     # Plot comparison
-    plt.figure(figsize=(10, 5))
-    plt.subplot(2, 1, 1)
-    plt.magnitude_spectrum(x, Fs=Fs, color='gray', label='Original')
-    plt.title("Original spectrum")
+    # plt.figure(figsize=(10, 5))
+    # plt.subplot(2, 1, 1)
+    # plt.magnitude_spectrum(x, Fs=Fs, color='gray', label='Original')
+    # plt.title("Original spectrum")
 
-    plt.subplot(2, 1, 2)
-    plt.magnitude_spectrum(y, Fs=Fs, color='green', label='Filtered')
-    plt.title(f"Dynamic Band-Pass Filtered Signal\n(f_low={fc[0]:.1f} Hz, f_high={fc[1]:.1f} Hz)")
-    plt.tight_layout()
-    plt.show()
+    # plt.subplot(2, 1, 2)
+    # plt.magnitude_spectrum(y, Fs=Fs, color='green', label='Filtered')
+    # plt.title(f"Dynamic Band-Pass Filtered Signal\n(f_low={fc[0]:.1f} Hz, f_high={fc[1]:.1f} Hz)")
+    # plt.tight_layout()
+    # plt.show()
 
     #PLot filtered signal vs original signal
-    plt.figure("Band-pass filter - Time domain")
-    plt.plot(t,x)
-    plt.plot(t,y)
-    plt.xlim((0,(N-1)/Fs))
-    plt.xlabel('Time (seconds)')
-    plt.legend(('Original signal', 'Filtered signal'))
-    plt.show()
+    # plt.figure("Band-pass filter - Time domain")
+    # plt.plot(t,x)
+    # plt.plot(t,y)
+    # plt.xlim((0,(N-1)/Fs))
+    # plt.xlabel('Time (seconds)')
+    # plt.legend(('Original signal', 'Filtered signal'))
+    # plt.show()
 
     output_file = f'{new_folder}dynamic_{name}{ext}'
     # Normalize to 16-bit range for audio
