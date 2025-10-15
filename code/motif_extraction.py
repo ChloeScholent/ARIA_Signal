@@ -3,6 +3,7 @@ import stumpy
 from scipy.io import wavfile
 import matplotlib.pyplot as plt
 import time
+import os
 
 out_folder = "motif_extraction/"
 folder = "dynamically_filtered_dataset/"
