@@ -17,10 +17,6 @@ for file in os.listdir(folder):
     N = np.size(x)
     t=np.arange(N)/Fs
 
-    # Convert to mono if stereo
-    if len(audio_data.shape) > 1:
-        audio_data = audio_data.mean(axis=1)
-
     # Normalize audio (float64 required by STUMPY)
     x = audio_data.astype(np.float64)
     x = x - np.mean(x)
