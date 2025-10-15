@@ -8,6 +8,10 @@ import time
 sample_rate, audio_data = wavfile.read("dynamically_filtered_dataset/dynamic_mono_XC1029284.wav")
 Fs = sample_rate
 
+# Convert to mono if stereo
+if len(audio_data.shape) > 1:
+    audio_data = audio_data.mean(axis=1)
+
 # Normalize audio (float64 required by STUMPY)
 x = audio_data.astype(np.float64)
 x = x - np.mean(x)
@@ -67,18 +71,18 @@ plt.legend()
 
 plt.tight_layout()
 plt.savefig("test2.pdf")
-# Transfer result back to CPU for plotting
-m_cpu = np.asnumpy(m)
-x_cpu = np.asnumpy(x)
 
-plt.figure("Matrix profile")
+# Optional: save a simple matrix profile overview
+plt.figure("Matrix Profile Overview", figsize=(10, 5))
 plt.subplot(2, 1, 1)
-plt.plot(x_cpu)
-plt.ylabel("Input signal")
+plt.plot(x)
+plt.ylabel("Input Signal")
+
 plt.subplot(2, 1, 2)
-plt.plot(m_cpu)
+plt.plot(matrix_profile)
 plt.ylabel("Matrix Profile")
-ind = m_cpu.argmin()
-plt.plot(ind, m_cpu[ind], "*r")
-plt.legend(("Matrix profile", "Minimum matrix profile value"))
+plt.plot(profile_index, matrix_profile[profile_index], "*r")
+plt.legend(["Matrix profile", "Minimum matrix profile value"])
+
+plt.tight_layout()
 plt.savefig("test.pdf")
