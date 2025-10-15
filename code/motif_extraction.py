@@ -68,8 +68,8 @@ plt.legend()
 plt.tight_layout()
 plt.savefig("test2.pdf")
 # Transfer result back to CPU for plotting
-m_cpu = cp.asnumpy(m)
-x_cpu = cp.asnumpy(x)
+m_cpu = np.asnumpy(m)
+x_cpu = np.asnumpy(x)
 
 plt.figure("Matrix profile")
 plt.subplot(2, 1, 1)
