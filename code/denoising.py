@@ -36,25 +36,25 @@ for file in os.listdir(folder):
     t=np.arange(N)/Fs
 
     # Display of the squared absolute value of the DFT as a function of frequency
-    # X,f=my_fft(x,Fs)
-    # plt.figure("Display of the squared absolute value of the DFT as a function of frequency")
-    # plt.plot(f,np.abs(X)**2)
-    # plt.xlim((-Fs/2,Fs/2))
-    # plt.xlabel('Frequency (Hz)')
-    # plt.title('$|X[k]|^2$')
-    # plt.show()
+    X,f=my_fft(x,Fs)
+    plt.figure("Display of the squared absolute value of the DFT as a function of frequency")
+    plt.plot(f,np.abs(X)**2)
+    plt.xlim((-Fs/2,Fs/2))
+    plt.xlabel('Frequency (Hz)')
+    plt.title('$|X[k]|^2$')
+    plt.show()
 
     # Band-pass filter
     fc=(4000,5500)
     y=band_pass_filter(x,fc,Fs)
 
-    # plt.figure("Band-pass filter - Time domain")
-    # plt.plot(t,x)
-    # plt.plot(t,y)
-    # plt.xlim((0,(N-1)/Fs))
-    # plt.xlabel('Time (seconds)')
-    # plt.legend(('Original signal', 'Filtered signal'))
-    # plt.show()
+    plt.figure("Band-pass filter - Time domain")
+    plt.plot(t,x)
+    plt.plot(t,y)
+    plt.xlim((0,(N-1)/Fs))
+    plt.xlabel('Time (seconds)')
+    plt.legend(('Original signal', 'Filtered signal'))
+    plt.show()
 
     output_file = f'{new_folder}{name}{ext}'
     # Normalize to 16-bit range for audio

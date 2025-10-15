@@ -4,13 +4,13 @@ import soundfile as sf
 from scipy.signal import stft
 
 # --- Parameters ---
-input_folder = "dynamically_filtered_dataset/"
+input_folder = "dataset/"
 output_folder = "trimmed_audio/"
-min_freq = 3500     # Hz
-max_freq = 6000     # Hz
+min_freq = 3000    # Hz
+max_freq = 8000    # Hz
 frame_length = 1024
 hop_length = 512
-energy_threshold = 1e-2  # Skip very quiet frames
+energy_threshold = 1e-1  # Skip very quiet frames
 
 os.makedirs(output_folder, exist_ok=True)
 

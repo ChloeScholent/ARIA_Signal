@@ -2,7 +2,7 @@ parcoursIA-main/
 dataset/
 env/
 filtered_dataset/
-dynamically_filtered_dataset/
+trimmed_audio/
 test/
 .git
 .vscode

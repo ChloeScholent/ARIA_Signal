@@ -4,7 +4,7 @@ from scipy import signal
 from matplotlib import pyplot as plt
 import os
 
-folder = "trimmed_audio/"
+folder = "dynamically_filtered_dataset/"
 
 for file in os.listdir(folder):
     file_path = os.path.join(folder, file)

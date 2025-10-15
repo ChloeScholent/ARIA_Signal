@@ -56,7 +56,7 @@ def dynamic_band_pass_filter(x, Fs, threshold_ratio=0.4, margin_hz=50, exclude_b
     return y, fc
 
 
-folder = "dataset/"
+folder = "trimmed_audio/"
 new_folder = "dynamically_filtered_dataset/"
 
 for file in os.listdir(folder):
@@ -72,7 +72,7 @@ for file in os.listdir(folder):
     
     y, fc = dynamic_band_pass_filter(y, Fs)
 
-    # Plot comparison
+    # # Plot comparison
     # plt.figure(figsize=(10, 5))
     # plt.subplot(2, 1, 1)
     # plt.magnitude_spectrum(x, Fs=Fs, color='gray', label='Original')
@@ -84,7 +84,7 @@ for file in os.listdir(folder):
     # plt.tight_layout()
     # plt.show()
 
-    #PLot filtered signal vs original signal
+    # # PLot filtered signal vs original signal
     # plt.figure("Band-pass filter - Time domain")
     # plt.plot(t,x)
     # plt.plot(t,y)
