@@ -16,7 +16,7 @@ os.makedirs(out_folder, exist_ok=True)
 max_duration = 20        # seconds (trim long audio)
 downsample_factor = 0.5  # optional, speeds up 2×
 threshold_gpu = 200_000  # switch between CPU/GPU
-L = 0.14                 # motif window length (seconds)
+L = 0.01                # motif window length (seconds)
 
 for file in os.listdir(folder):
     if not file.endswith(".wav"):
