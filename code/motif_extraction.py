@@ -5,6 +5,7 @@ import matplotlib
 matplotlib.use('Agg')  # non-interactive backend
 import matplotlib.pyplot as plt
 import time, os
+from scipy import signal
 
 folder = "dynamically_filtered_dataset/"
 out_folder = "motif_extraction/"
