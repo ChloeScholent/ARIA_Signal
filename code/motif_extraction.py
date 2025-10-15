@@ -1,6 +1,6 @@
 import numpy as np
 import stumpy
-from scipy.io import wavfile, signal
+from scipy.io import wavfile
 import matplotlib
 matplotlib.use('Agg')  # non-interactive backend
 import matplotlib.pyplot as plt
