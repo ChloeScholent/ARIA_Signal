@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import os, time
 
 # === Paths ===
-folder = "dynamically_filtered_dataset/"
+folder = "trimmed_audio/"
 out_folder = "motif_extraction/"
 os.makedirs(out_folder, exist_ok=True)
 
