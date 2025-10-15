@@ -1,93 +1,91 @@
 import numpy as np
 import stumpy
-from scipy.io import wavfile
+from scipy.io import wavfile, signal
+import matplotlib
+matplotlib.use('Agg')  # non-interactive backend
 import matplotlib.pyplot as plt
-import time
-import os
+import time, os
 
-out_folder = "motif_extraction/"
 folder = "dynamically_filtered_dataset/"
+out_folder = "motif_extraction/"
+os.makedirs(out_folder, exist_ok=True)
+
+max_duration = 20  # seconds (trim longer files)
+downsample_factor = 0.5  # optional, 2× faster
+threshold_gpu = 200_000  # samples threshold for GPU use
 
 for file in os.listdir(folder):
+    if not file.endswith(".wav"):
+        continue
+
     file_path = os.path.join(folder, file)
     name, ext = os.path.splitext(file)
+    print(f"\nProcessing {file}...")
+
+    # === Load audio ===
     sample_rate, audio_data = wavfile.read(file_path)
     Fs = sample_rate
-    x = audio_data
-    N = np.size(x)
-    t=np.arange(N)/Fs
 
-    # Normalize audio (float64 required by STUMPY)
+    # Convert stereo to mono
+    if len(audio_data.shape) > 1:
+        audio_data = audio_data.mean(axis=1)
+
+    # Trim long audio
+    if len(audio_data) > max_duration * Fs:
+        audio_data = audio_data[:int(max_duration * Fs)]
+
+    # Downsample (optional)
+    if downsample_factor < 1.0:
+        audio_data = signal.resample(audio_data, int(len(audio_data) * downsample_factor))
+        Fs *= downsample_factor
+
+    # Convert to float64 (required by STUMPY)
     x = audio_data.astype(np.float64)
-    x = x - np.mean(x)
-    x = x / np.std(x)
 
-    # === Define parameters ===
-    L = 0.14              # window length in seconds
-    w = int(L * Fs)       # convert to samples
+    # === Parameters ===
+    L = 0.14
+    w = int(L * Fs)
 
-    print(f"Running GPU matrix profile (window = {w} samples) for signal {name}...")
+    print(f"Window size: {w} samples ({L}s), signal length: {len(x)} samples")
 
-    # === Compute matrix profile on GPU ===
+    # === Compute matrix profile ===
     start = time.time()
-    mp = stumpy.gpu_stump(x, m=w)
+    if len(x) < threshold_gpu:
+        mp = stumpy.stump(x, m=w)
+        method = "CPU"
+    else:
+        mp = stumpy.gpu_stump(x, m=w)
+        method = "GPU"
+
     elapsed = time.time() - start
-    print(f"✅ Done in {elapsed:.2f} seconds")
+    print(f"✅ {method} matrix profile computed in {elapsed:.2f} seconds")
 
-    # === Extract results ===
+    # === Extract motifs ===
     matrix_profile = mp[:, 0]
-    profile_index = np.argmin(matrix_profile)
-    print(f"Minimum matrix profile index: {profile_index}")
-
-    # === Identify motif pair (two most similar subsequences) ===
-    i = np.argmin(mp[:, 0])  # motif 1 start index
-    j = int(mp[i, 1])        # motif 2 start index (nearest neighbor)
-    print(f"Motif pair found at indices {i} and {j}")
-
+    i = np.argmin(matrix_profile)
+    j = int(mp[i, 1])
     motif1 = x[i:i+w]
     motif2 = x[j:j+w]
 
-    # === Plot results ===
-    plt.figure("Matrix Profile and Motifs", figsize=(12, 8))
+    print(f"Motif pair at indices {i} and {j}")
 
-    # 1️⃣ Original signal
-    plt.subplot(3, 1, 1)
-    plt.plot(x, color="gray", alpha=0.6)
-    plt.axvspan(i, i+w, color="red", alpha=0.3, label="Motif 1")
-    plt.axvspan(j, j+w, color="blue", alpha=0.3, label="Motif 2")
-    plt.title("Input Audio Signal with Motif Locations")
-    plt.ylabel("Amplitude")
-    plt.legend()
+    # === Plot and save ===
+    fig, axs = plt.subplots(3, 1, figsize=(12, 8))
 
-    # 2️⃣ Matrix profile
-    plt.subplot(3, 1, 2)
-    plt.plot(matrix_profile, color="black")
-    plt.plot(i, matrix_profile[i], "*r")
-    plt.title("Matrix Profile (GPU Accelerated with STUMPY)")
-    plt.ylabel("Matrix Profile Value")
+    axs[0].plot(x, color="gray", alpha=0.6)
+    axs[0].axvspan(i, i+w, color="red", alpha=0.3)
+    axs[0].axvspan(j, j+w, color="blue", alpha=0.3)
+    axs[0].set_title(f"{name} - Input Signal with Motif Locations")
 
-    # 3️⃣ Extracted motif pair
-    plt.subplot(3, 1, 3)
-    plt.plot(motif1, "r", label="Motif 1")
-    plt.plot(motif2, "b", label="Motif 2")
-    plt.title("Extracted Motif Pair (Most Similar Segments)")
-    plt.ylabel("Amplitude")
-    plt.legend()
+    axs[1].plot(matrix_profile, color="black")
+    axs[1].plot(i, matrix_profile[i], "*r")
+    axs[1].set_title("Matrix Profile")
+
+    axs[2].plot(motif1, "r", label="Motif 1")
+    axs[2].plot(motif2, "b", label="Motif 2")
+    axs[2].legend()
+    axs[2].set_title("Motif Pair")
 
     plt.tight_layout()
-    plt.savefig(f'{folder}{name}.pdf')
-
-    # # Optional: save a simple matrix profile overview
-    # plt.figure("Matrix Profile Overview", figsize=(10, 5))
-    # plt.subplot(2, 1, 1)
-    # plt.plot(x)
-    # plt.ylabel("Input Signal")
-
-    # plt.subplot(2, 1, 2)
-    # plt.plot(matrix_profile)
-    # plt.ylabel("Matrix Profile")
-    # plt.plot(profile_index, matrix_profile[profile_index], "*r")
-    # plt.legend(["Matrix profile", "Minimum matrix profile value"])
-
-    # plt.tight_layout()
-
+    plt.savefig(f"{out_folder}/{name}.pdf")
+    plt.close(fig)
