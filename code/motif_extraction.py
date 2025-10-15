@@ -26,7 +26,7 @@ for file in os.listdir(folder):
     L = 0.14              # window length in seconds
     w = int(L * Fs)       # convert to samples
 
-    print(f"Running GPU matrix profile (window = {w} samples)...")
+    print(f"Running GPU matrix profile (window = {w} samples) for signal {name}...")
 
     # === Compute matrix profile on GPU ===
     start = time.time()
