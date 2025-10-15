@@ -10,7 +10,7 @@ min_freq = 3500     # Hz
 max_freq = 6000     # Hz
 frame_length = 1024
 hop_length = 512
-energy_threshold = 1e-2   # Skip very quiet frames
+energy_threshold = 1e-2  # Skip very quiet frames
 
 os.makedirs(output_folder, exist_ok=True)
 
