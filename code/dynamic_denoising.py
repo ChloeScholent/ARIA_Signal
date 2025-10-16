@@ -24,7 +24,7 @@ def band_pass_filter(x, fc, Fs):
     y = signal.filtfilt(b, a, x)
     return y
 
-def dynamic_band_pass_filter(x, Fs, threshold_ratio=0.4, margin_hz=50, exclude_below=3500, exclude_above=6000):
+def dynamic_band_pass_filter(x, Fs, threshold_ratio=0.5, margin_hz=50, exclude_below=3500, exclude_above=6000):
     """
     Automatically choose fc based on FFT peak frequencies.
     threshold_ratio: ratio (0–1) of max magnitude to define strong frequency band.
@@ -56,7 +56,7 @@ def dynamic_band_pass_filter(x, Fs, threshold_ratio=0.4, margin_hz=50, exclude_b
     return y, fc
 
 
-folder = "trimmed_audio/"
+folder = "dataset/"
 new_folder = "dynamically_filtered_dataset/"
 
 for file in os.listdir(folder):

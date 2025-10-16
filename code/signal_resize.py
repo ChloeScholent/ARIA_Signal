@@ -1,63 +1,49 @@
 import os
 import numpy as np
 import soundfile as sf
-from scipy.signal import stft
 
 # --- Parameters ---
-input_folder = "dataset/"
+input_folder = "dynamically_filtered_dataset/"
 output_folder = "trimmed_audio/"
-min_freq = 3000    # Hz
-max_freq = 8000    # Hz
-frame_length = 1024
-hop_length = 512
-energy_threshold = 1e-1  # Skip very quiet frames
+duration_to_save = 5.0     # seconds
+energy_threshold = 0.02    # adjust depending on audio volume
+frame_size = 1024          # number of samples per analysis frame
 
 os.makedirs(output_folder, exist_ok=True)
 
 for filename in os.listdir(input_folder):
-    if not filename.lower().endswith((".wav")):
+    if not filename.lower().endswith((".wav", ".flac", ".ogg")):
         continue
 
-    print(f"Processing {filename} ...")
     filepath = os.path.join(input_folder, filename)
+    print(f"Processing {filename} ...")
+
     y, sr = sf.read(filepath)
     if y.ndim > 1:
-        y = np.mean(y, axis=1)  # Convert to mono
+        y = np.mean(y, axis=1)  # convert to mono
 
-    # --- Compute STFT ---
-    freqs, times, Zxx = stft(y, fs=sr, nperseg=frame_length, noverlap=frame_length - hop_length)
-    magnitudes = np.abs(Zxx)
+    # --- Compute short-time energy ---
+    num_frames = len(y) // frame_size
+    energies = np.array([
+        np.mean(np.square(y[i*frame_size:(i+1)*frame_size]))
+        for i in range(num_frames)
+    ])
 
-    # --- Dominant frequency per frame ---
-    dominant_freqs = freqs[np.argmax(magnitudes, axis=0)]
-    energies = np.sum(magnitudes, axis=0)
+    # --- Find first frame above threshold ---
+    idx = np.argmax(energies > energy_threshold)
+    if energies[idx] <= energy_threshold:
+        print(f"No energetic segment found in {filename}")
+        continue
 
-    # --- Keep frames in the desired frequency range and with sufficient energy ---
-    keep_mask = (dominant_freqs >= min_freq) & (dominant_freqs <= max_freq) & (energies > energy_threshold)
+    start_time = idx * frame_size / sr
+    end_time = start_time + duration_to_save
+    print(f"Detected energy at {start_time:.2f}s → saving 5s segment")
 
-    # --- Convert frames to time intervals ---
-    frame_times = times
-    segments = []
-    start = None
-    for i, keep in enumerate(keep_mask):
-        if keep and start is None:
-            start = frame_times[i]
-        elif not keep and start is not None:
-            segments.append((start, frame_times[i]))
-            start = None
-    if start is not None:
-        segments.append((start, frame_times[-1] + (frame_length / sr)))
+    # --- Extract and save ---
+    start_sample = int(start_time * sr)
+    end_sample = int(min(end_time * sr, len(y)))
+    trimmed = y[start_sample:end_sample]
 
-    # --- Concatenate valid segments ---
-    trimmed_audio = np.concatenate([
-        y[int(start * sr): int(end * sr)]
-        for start, end in segments
-    ]) if segments else np.array([], dtype=np.float32)
-
-    # --- Save result ---
-    if len(trimmed_audio) > 0:
-        out_path = os.path.join(output_folder, filename)
-        sf.write(out_path, trimmed_audio, sr)
-        print(f"Saved trimmed file to: {out_path}")
-    else:
-        print(f"No valid segments found in {filename}")
+    out_path = os.path.join(output_folder, filename)
+    sf.write(out_path, trimmed, sr)
+    print(f"Saved: {out_path}")

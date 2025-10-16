@@ -4,9 +4,9 @@ from scipy import signal
 from matplotlib import pyplot as plt
 import os
 
-folder = "dynamically_filtered_dataset/"
+folder = "trimmed_audio/"
 
-for file in os.listdir(folder):
+for file in sorted(os.listdir(folder)):
     file_path = os.path.join(folder, file)
     name, ext = os.path.splitext(file)
     sample_rate, audio_data = wavfile.read(file_path)
@@ -16,10 +16,10 @@ for file in os.listdir(folder):
     t=np.arange(N)/Fs
 
     #DATA INFO
-    print(f"Sampling Frequency : {Fs} Hz")
-    print(f"Number of samples : {N}")
-    print(f'Length of the signal : {N/Fs:.2f}s')
-    print('\n')
+    # print(f"Sampling Frequency : {Fs} Hz")
+    # print(f"Number of samples : {N}")
+    # print(f'Length of the signal : {N/Fs:.2f}s')
+    # print('\n')
 
 
     #SIGNAL VISUALIZATION
