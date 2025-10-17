@@ -3,7 +3,7 @@ dataset/
 env/
 filtered_dataset/
 trimmed_audio/
-motif_extraction
+
 test/
 dynamically_filtered_dataset
 .git
