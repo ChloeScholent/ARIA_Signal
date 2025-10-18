@@ -6,6 +6,7 @@ import matplotlib
 matplotlib.use('Agg')  # faster for SSH
 import matplotlib.pyplot as plt
 import os, time
+import csv
 
 # === Paths ===
 folder = "trimmed_audio/"
@@ -17,8 +18,9 @@ max_duration = 20        # seconds (trim long audio)
 downsample_factor = 0.5  # optional, speeds up 2×
 threshold_gpu = 200_000  # switch between CPU/GPU
 L_list = [.1, .15, .17, .2, .25, .3]   # motif window length (seconds)
-for L in L_list:
-    for file in sorted(os.listdir(folder)):
+
+for file in sorted(os.listdir(folder)):
+    for L in L_list:
         if not file.endswith(".wav"):
             continue
 
@@ -65,19 +67,8 @@ for L in L_list:
 
         print(f"🎯 Most significant motif starts at index {motif_index}")
 
-        # === Prepare output CSV path ===
-        csv_path = os.path.join(out_folder, f"{L}_{name}_motifs.csv")
-
-        # === Save to CSV ===
-        with open(csv_path, mode="w", newline="") as f:
-            writer = csv.writer(f)
-            # Header row
-            header = ["motif_length", "motif_index"] + [f"sample_{j}" for j in range(w)]
-            writer.writerow(header)
-
-            # Write each motif as a row
-            for rank, i in enumerate(motif_indices, start=1):
-                row = [rank, i] + list(x[i:i + w])
-                writer.writerow(row)
-
-        print(f"💾 Saved top {top_k} motifs to {csv_path}")
+        # === Save motif to CSV ===
+        motif_filename = f"{name}_L{L:.2f}s_motif.csv"
+        motif_path = os.path.join(out_folder, motif_filename)
+        np.savetxt(motif_path, motif, delimiter=",")
+        print(f"💾 Saved motif to {motif_path}")
