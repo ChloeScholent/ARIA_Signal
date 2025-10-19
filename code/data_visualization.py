@@ -23,12 +23,12 @@ for file in sorted(os.listdir(folder)):
 
 
     #SIGNAL VISUALIZATION
-    plt.figure("x[n] as a function of the time t[n]")
-    plt.plot(t,x)
-    plt.xlim((0,(N-1)/Fs))
-    plt.xlabel('Time (seconds)')
-    plt.title('$x[n]$')
-    plt.show()
+    # plt.figure("x[n] as a function of the time t[n]")
+    # plt.plot(t,x)
+    # plt.xlim((0,(N-1)/Fs))
+    # plt.xlabel('Time (seconds)')
+    # plt.title('$x[n]$')
+    # plt.show()
 
 
 

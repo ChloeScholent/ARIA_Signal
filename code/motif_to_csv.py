@@ -9,7 +9,7 @@ import os, time
 import csv
 
 # === Paths ===
-folder = "trimmed_audio/"
+folder = "wav_resampled/"
 out_folder = "motif_csv/"
 os.makedirs(out_folder, exist_ok=True)
 
@@ -17,7 +17,7 @@ os.makedirs(out_folder, exist_ok=True)
 max_duration = 20        # seconds (trim long audio)
 downsample_factor = 0.5  # optional, speeds up 2×
 threshold_gpu = 200_000  # switch between CPU/GPU
-L_list = [.1, .15, .17, .2, .25, .3]   # motif window length (seconds)
+L_list = [.1]   # motif window length (seconds)
 
 for file in sorted(os.listdir(folder)):
     for L in L_list:
@@ -68,7 +68,7 @@ for file in sorted(os.listdir(folder)):
         print(f"🎯 Most significant motif starts at index {motif_index}")
 
         # === Save motif to CSV ===
-        motif_filename = f"{name}_L{L:.2f}s_motif.csv"
+        motif_filename = f"{L}{name}_motif.csv"
         motif_path = os.path.join(out_folder, motif_filename)
         np.savetxt(motif_path, motif, delimiter=",")
         print(f"💾 Saved motif to {motif_path}")

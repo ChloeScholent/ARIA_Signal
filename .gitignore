@@ -9,3 +9,5 @@ dynamically_filtered_dataset
 .git
 .vscode
 __pycach__/
+code/__pycache__
+wav_resampled/

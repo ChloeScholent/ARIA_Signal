@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import os, time
 
 # === Paths ===
-folder = "trimmed_audio/"
+folder = "wav_resampled/"
 out_folder = "motif_extraction/"
 os.makedirs(out_folder, exist_ok=True)
 
@@ -16,7 +16,7 @@ os.makedirs(out_folder, exist_ok=True)
 max_duration = 20        # seconds (trim long audio)
 downsample_factor = 0.5  # optional, speeds up 2×
 threshold_gpu = 200_000  # switch between CPU/GPU
-L_list = [.1, .15, .17, .2, .25, .3]   # motif window length (seconds)
+L_list = [.1]   # motif window length (seconds)
 for L in L_list:
     for file in sorted(os.listdir(folder)):
         if not file.endswith(".wav"):
