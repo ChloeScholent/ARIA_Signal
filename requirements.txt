@@ -10,3 +10,4 @@ stumpy[gpu]
 ffmpeg-python
 soundfile
 dtaidistance
+tslearn
