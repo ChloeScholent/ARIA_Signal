@@ -3,10 +3,10 @@ import matplotlib.pyplot as plt
 import os
 
 
-folder = "motif_csv/"
+folder = "test/"
 
 
-for file in os.listdir(folder):
+for file in sorted(os.listdir(folder)):
     file_path = os.path.join(folder, file)
 
     # Load the motif from your saved CSV
@@ -14,6 +14,7 @@ for file in os.listdir(folder):
 
     # Print some info
     print(f"Motif loaded with {len(motif)} samples")
+    print(file)
     # print("First 10 samples:", motif[:10])
 
     plt.figure(figsize=(8, 3))
@@ -23,3 +24,4 @@ for file in os.listdir(folder):
     plt.ylabel("Amplitude")
     plt.grid(True)
     plt.show()
+
