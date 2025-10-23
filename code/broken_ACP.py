@@ -71,6 +71,7 @@ motifs = []
 names = []
 
 for file in sorted(os.listdir(folder)):
+    file_path = os.path.join(folder, file)
     if not file.endswith(".csv"):
         continue
     path = os.path.join(folder, file)
