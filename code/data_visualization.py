@@ -4,16 +4,16 @@ from scipy import signal
 from matplotlib import pyplot as plt
 import os
 
-folder = "trimmed_audio/"
+# folder = "trimmed_audio/"
 
-for file in sorted(os.listdir(folder)):
-    file_path = os.path.join(folder, file)
-    name, ext = os.path.splitext(file)
-    sample_rate, audio_data = wavfile.read(file_path)
-    Fs = sample_rate
-    x = audio_data
-    N = np.size(x)
-    t=np.arange(N)/Fs
+# for file in sorted(os.listdir(folder)):
+#     file_path = os.path.join(folder, file)
+#     name, ext = os.path.splitext(file)
+#     sample_rate, audio_data = wavfile.read(file_path)
+#     Fs = sample_rate
+#     x = audio_data
+#     N = np.size(x)
+#     t=np.arange(N)/Fs
 
     #DATA INFO
     # print(f"Sampling Frequency : {Fs} Hz")
@@ -31,6 +31,29 @@ for file in sorted(os.listdir(folder)):
     # plt.show()
 
 
+#FILE VISUALIZATION
 
+file = "wav_resampled/dynamic_mono_XC1017470.wav"
+
+sample_rate, audio_data = wavfile.read(file)
+Fs = sample_rate
+x = audio_data
+N = np.size(x)
+t=np.arange(N)/Fs
+
+#DATA INFO
+print(f"Sampling Frequency : {Fs} Hz")
+print(f"Number of samples : {N}")
+print(f'Length of the signal : {N/Fs:.2f}s')
+print('\n')
+
+
+#SIGNAL VISUALIZATION
+plt.figure("x[n] as a function of the time t[n]")
+plt.plot(t,x)
+plt.xlim((0,(N-1)/Fs))
+plt.xlabel('Time (seconds)')
+plt.title('$x[n]$')
+plt.show()
 
     

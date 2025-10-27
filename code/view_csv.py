@@ -11,7 +11,7 @@ for file in sorted(os.listdir(folder)):
 
     # Load the motif from your saved CSV
     motif = np.loadtxt(file_path, delimiter=",")
-
+    print(type(motif), motif.shape, type(motif[0]))
     # Print some info
     print(f"Motif loaded with {len(motif)} samples")
     print(file)

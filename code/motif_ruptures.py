@@ -7,7 +7,7 @@ import ruptures as rpt
 import os
 import csv
 
-folder="motif_csv/"
+folder="motif_csv_0.35/"
 output_folder = "segmented_signal"
 
 for file in os.listdir(folder):
@@ -19,7 +19,7 @@ for file in os.listdir(folder):
     t=np.arange(N)/Fs
 
     # Change point detection with L2 cost function and K=3 breakpoints 
-    K=1 #Number of breakpoints
+    K=4 #Number of breakpoints
     algo = rpt.Dynp(model='rbf', min_size=3).fit(motif)
     my_bkps = algo.predict(n_bkps=K)
     rpt.show.display(motif, my_bkps , my_bkps, figsize=(8, 5))
