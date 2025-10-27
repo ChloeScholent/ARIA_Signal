@@ -10,14 +10,14 @@ import csv
 
 # === Paths ===
 folder = "wav_resampled/"
-out_folder = "motif_csv/"
+out_folder = "motif_csv_0.35/"
 os.makedirs(out_folder, exist_ok=True)
 
 # === Processing parameters ===
 max_duration = 20        # seconds (trim long audio)
 downsample_factor = 0.5  # optional, speeds up 2×
 threshold_gpu = 200_000  # switch between CPU/GPU
-L_list = [.1]   # motif window length (seconds)
+L_list = [.35]   # motif window length (seconds)
 
 for file in sorted(os.listdir(folder)):
     for L in L_list:
