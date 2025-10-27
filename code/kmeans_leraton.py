@@ -81,7 +81,7 @@ def K_means(
 
         # update of the center or stop
 
-        print(stop_dist, num_it)
+        #print(stop_dist, num_it)
         if stop_dist > stop_val:
             centers = new_centers.copy()
         else:
