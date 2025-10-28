@@ -5,7 +5,6 @@ filtered_dataset/
 trimmed_audio/
 
 test/
-dynamically_filtered_dataset
 .git
 .vscode
 __pycach__/
