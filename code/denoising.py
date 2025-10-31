@@ -23,7 +23,7 @@ def band_pass_filter(x, fc, Fs):
     y = signal.filtfilt(b, a, x)
     return y
     
-folder = "trimmed_audio/"
+folder = "dataset/"
 new_folder = "filtered_dataset/"
 
 for file in os.listdir(folder):
@@ -56,7 +56,7 @@ for file in os.listdir(folder):
     plt.legend(('Original signal', 'Filtered signal'))
     plt.show()
 
-    output_file = f'{new_folder}{name}{ext}'
-    # Normalize to 16-bit range for audio
-    y_norm = np.int16((y / np.max(np.abs(y))) * 32767)
-    wavfile.write(output_file, Fs, y_norm)
+    # output_file = f'{new_folder}{name}{ext}'
+    # # Normalize to 16-bit range for audio
+    # y_norm = np.int16((y / np.max(np.abs(y))) * 32767)
+    # wavfile.write(output_file, Fs, y_norm)

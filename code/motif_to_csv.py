@@ -15,7 +15,6 @@ os.makedirs(out_folder, exist_ok=True)
 
 # === Processing parameters ===
 max_duration = 20        # seconds (trim long audio)
-downsample_factor = 0.5  # optional, speeds up 2×
 threshold_gpu = 200_000  # switch between CPU/GPU
 L_list = [.35]   # motif window length (seconds)
 
@@ -35,11 +34,6 @@ for file in sorted(os.listdir(folder)):
         # Trim to avoid massive FFTs
         if len(audio_data) > max_duration * Fs:
             audio_data = audio_data[:int(max_duration * Fs)]
-
-        # Optional downsampling
-        if downsample_factor < 1.0:
-            audio_data = signal.resample(audio_data, int(len(audio_data) * downsample_factor))
-            Fs *= downsample_factor
 
         # Convert to float64 for STUMPY
         x = audio_data.astype(np.float64)
