@@ -7,9 +7,9 @@ import matplotlib.pyplot as plt
 # -----------------------------
 # CONFIGURATION
 # -----------------------------
-wav_folder = "wav_resampled"       # <-- your WAV files folder
+wav_folder = "dynamically_filtered_dataset"       # <-- your WAV files folder
 motif_folder = "segmented_motif"   # <-- folder with 40 motif CSVs
-threshold_method = "median"             # "median", "mean", or manual number
+threshold_method = "mean"             # "median", "mean", or manual number
 
 # -----------------------------
 # HELPER FUNCTIONS

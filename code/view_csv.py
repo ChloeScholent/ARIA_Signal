@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import os
 
 
-folder = "motif_csv_0.35/"
+folder = "segmented_motif/"
 
 
 for file in sorted(os.listdir(folder)):
