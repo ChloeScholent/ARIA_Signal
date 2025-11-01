@@ -5,7 +5,7 @@ from numpy.fft import rfft
 from pprint import pprint as print
 
 
-folder = "segmented_motif"
+folder = "motif_csv_0.35"
 signals = []
 
 for file in sorted(os.listdir(folder)):
