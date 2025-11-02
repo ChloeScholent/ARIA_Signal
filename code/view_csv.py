@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import os
 
 
-folder = "segmented_motif/"
+folder = "motif_0.25/"
 
 
 for file in sorted(os.listdir(folder)):

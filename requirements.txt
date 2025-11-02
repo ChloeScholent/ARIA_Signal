@@ -11,3 +11,4 @@ ffmpeg-python
 soundfile
 dtaidistance
 tslearn
+seaborn

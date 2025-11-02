@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from scipy.io import wavfile
 
 
-folder_path = "wav_resampled"
+folder_path = "short_dataset"
 files = sorted([f for f in os.listdir(folder_path) if f.endswith(".wav")])
 
 
@@ -21,7 +21,7 @@ num_signals = len(signals)
 rows = 8
 cols = 5
 
-fig, axes = plt.subplots(rows, cols, figsize=(20, 15))
+fig, axes = plt.subplots(rows, cols, figsize=(15, 10))
 axes = axes.flatten()
 
 for i, signal in enumerate(signals):

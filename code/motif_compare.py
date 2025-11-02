@@ -33,8 +33,8 @@ def fast_distance_profile_EUC(x, p):
 # ================================================================
 # Main matching loop
 # ================================================================
-motif_folder = "motif_csv_0.35/"
-folder = "wav_resampled/"
+motif_folder = "motif_0.3/"
+folder = "short_dataset/"
 arg = []
 best_motif_paths = []
 

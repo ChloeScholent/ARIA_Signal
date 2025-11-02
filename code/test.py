@@ -6,8 +6,8 @@ from sklearn.decomposition import PCA
 import librosa
 
 # --- Paths ---
-signals_dir = "dynamically_filtered_dataset"
-motifs_dir = "motif_csv_0.35"
+signals_dir = "short_dataset"
+motifs_dir = "motif_0.3"
 
 # --- Load signals ---
 signals = []
@@ -23,7 +23,7 @@ for file in sorted(os.listdir(motifs_dir)):
     if file.endswith(".csv"):
         motif = np.loadtxt(os.path.join(motifs_dir, file), delimiter=",")
         motifs.append(motif)
-motifs = np.array(motifs)
+
 
 # --- Compute max correlations ---
 n_signals = len(signals)
