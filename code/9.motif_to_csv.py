@@ -9,14 +9,14 @@ import csv
 
 # === Paths ===
 folder = "short_dataset/"
-out_folder = "motif_0.3/"
+out_folder = "motif_0.5/"
 os.makedirs(out_folder, exist_ok=True)
 
 # === Processing parameters ===
 max_duration = 20        # seconds
 downsample_factor = 0.5  # optional, speeds up 2×
 threshold_gpu = 200_000  # switch between CPU/GPU
-L = 0.3                 # motif window length (seconds)
+L = .5                # motif window length (seconds)
 
 # === Loop over all .wav files ===
 for file in os.listdir(folder):

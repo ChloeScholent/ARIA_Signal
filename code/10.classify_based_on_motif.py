@@ -11,7 +11,7 @@ from pprint import pprint as print
 # CONFIGURATION
 # -----------------------------
 wav_folder = "short_dataset"       # <-- your WAV files folder
-motif_folder = "motif_0.3"        # <-- folder with 40 motif CSVs
+motif_folder = "motif_0.15"        # <-- folder with 40 motif CSVs
 threshold_method = "median"        # "median", "mean", or manual number
 
 # -----------------------------

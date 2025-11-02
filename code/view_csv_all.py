@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # === Paths ===
-motif_folder = "motif_0.3/"  # folder with CSVs
+motif_folder = "motif_0.5/"  # folder with CSVs
 
 # === Collect all motif files ===
 motif_files = [f for f in os.listdir(motif_folder) if f.endswith(".csv")]
