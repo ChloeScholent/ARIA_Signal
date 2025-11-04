@@ -73,30 +73,28 @@ for file in os.listdir(folder):
     
     y, fc = dynamic_band_pass_filter(y, Fs)
 
-    plot+=1
-    if plot > 22:
-        # # Plot comparison
-        # plt.figure(figsize=(10, 5))
-        # plt.subplot(2, 1, 1)
-        # plt.magnitude_spectrum(x, Fs=Fs, color='gray', label='Original')
-        # plt.title("Original spectrum")
+    # Plot comparison
+    plt.figure(figsize=(10, 5))
+    plt.subplot(2, 1, 1)
+    plt.magnitude_spectrum(x, Fs=Fs, color='gray', label='Original')
+    plt.title("Original spectrum")
 
-        # plt.subplot(2, 1, 2)
-        # plt.magnitude_spectrum(y, Fs=Fs, color='green', label='Filtered')
-        # plt.title(f"Dynamic Band-Pass Filtered Signal\n(f_low={fc[0]:.1f} Hz, f_high={fc[1]:.1f} Hz)")
-        # plt.tight_layout()
-        # plt.show()
+    plt.subplot(2, 1, 2)
+    plt.magnitude_spectrum(y, Fs=Fs, color='green', label='Filtered')
+    plt.title(f"Dynamic Band-Pass Filtered Signal\n(f_low={fc[0]:.1f} Hz, f_high={fc[1]:.1f} Hz)")
+    plt.tight_layout()
+    plt.show()
 
-        # PLot filtered signal vs original signal
-        # plt.figure("Band-pass filter - Time domain")
-        # plt.plot(t,x)
-        # plt.plot(t,y)
-        # plt.xlim((0,(N-1)/Fs))
-        # plt.xlabel('Time (seconds)')
-        # plt.legend(('Original signal', 'Filtered signal'))
-        # plt.show()
+    # PLot filtered signal vs original signal
+    plt.figure("Band-pass filter - Time domain")
+    plt.plot(t,x)
+    plt.plot(t,y)
+    plt.xlim((0,(N-1)/Fs))
+    plt.xlabel('Time (seconds)')
+    plt.legend(('Original signal', 'Filtered signal'))
+    plt.show()
 
-        output_file = f'{new_folder}dyna_{name}{ext}'
-        # Normalize to 16-bit range for audio
-        y_norm = np.int16((y / np.max(np.abs(y))) * 32767)
-        wavfile.write(output_file, Fs, y_norm)
+    output_file = f'{new_folder}dyna_{name}{ext}'
+    # Normalize to 16-bit range for audio
+    y_norm = np.int16((y / np.max(np.abs(y))) * 32767)
+    wavfile.write(output_file, Fs, y_norm)

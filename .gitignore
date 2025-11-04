@@ -10,3 +10,4 @@ test/
 __pycach__/
 code/__pycache__
 wav_resampled/
+visual/
