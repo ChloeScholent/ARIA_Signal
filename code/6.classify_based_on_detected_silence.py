@@ -5,7 +5,7 @@ import os
 from statistics import median
 from pprint import pprint as print
 
-folder = "trimmed_dataset"
+folder = "short_dataset"
 mean_silence_size = []
 file_silence_size = []
 minim = []
@@ -42,13 +42,13 @@ for file in os.listdir(folder):
     minim.append((len(silence_samples), file_path))
  
     # Plot
-    plt.figure(figsize=(12, 4))
-    librosa.display.waveshow(y, sr=sr, alpha=0.7)
-    for s, e in silent_intervals:
-        plt.axvspan(s / sr, e / sr, color='gray', alpha=0.4)
-    plt.title(f"Detected Silences in Birdsong ({file})")
-    plt.xlabel("Time (s)")
-    plt.show()
+    # plt.figure(figsize=(12, 4))
+    # librosa.display.waveshow(y, sr=sr, alpha=0.7)
+    # for s, e in silent_intervals:
+    #     plt.axvspan(s / sr, e / sr, color='gray', alpha=0.4)
+    # plt.title(f"Detected Silences in Birdsong ({file})")
+    # plt.xlabel("Time (s)")
+    # plt.show()
 
 sorted_minim = sorted(minim)
 print("Files with most silent sequences:")
