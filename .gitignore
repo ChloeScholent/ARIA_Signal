@@ -11,3 +11,6 @@ __pycach__/
 code/__pycache__
 wav_resampled/
 visual/
+birdsong_dataset_mono.npz
+code/.ipynb_checkpoints
+.ipynb_checkpoints

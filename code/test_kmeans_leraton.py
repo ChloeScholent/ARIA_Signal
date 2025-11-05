@@ -24,3 +24,5 @@ fft_signals = np.array(fft_signals)
 centers, clusters_points, cluster_index = K_means(points=fft_signals, nb_clust=2)
 
 print(cluster_index)
+
+print(centers)
