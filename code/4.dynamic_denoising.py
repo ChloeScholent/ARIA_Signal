@@ -55,7 +55,6 @@ def dynamic_band_pass_filter(x, Fs, threshold_ratio=0.5, margin_hz=50, exclude_b
     
     return y, fc
 
-plot=0
 folder = "downsampled_dataset/"
 new_folder = "dynamically_filtered_dataset/"
 os.makedirs(new_folder, exist_ok=True)
