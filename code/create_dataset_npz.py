@@ -3,7 +3,7 @@ from scipy.io import wavfile
 import os
 
 in_folder = "dataset/"
-out_file = "birdsong_dataset_mono.npz"
+out_file = "final_project/birdsong_dataset_mono.npz"
 
 signals = []
 sample_rates = []

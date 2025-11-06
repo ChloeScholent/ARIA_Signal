@@ -19,7 +19,7 @@ __pycach__/
 code/__pycache__
 
 visual/
-birdsong_dataset_mono.npz
+final_project/birdsong_dataset_mono.npz
 code/.ipynb_checkpoints
 .ipynb_checkpoints
-combined_features.npz
+final_project/combined_features.npz
