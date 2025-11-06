@@ -6,4 +6,4 @@ There are 40 signals in the `annotated_dataset` folder. This folder is the begin
 
 The `code` and `notebooks` folders contain several python code which helped build the extraction and classification pipeline
 
-The `final_project` folder contains the final extraction and classification pipeline as well as 2 npz files which contain the data to use.
+The `final_project` folder contains the final extraction and classification pipeline. A npz file needs to be added in the folder by running `code/create_dataset_npz.py`.
