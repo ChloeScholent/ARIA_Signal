@@ -3,13 +3,21 @@ dataset/
 env/
 filtered_dataset/
 trimmed_audio/
+wav_resampled/
+trimmed_dataset/
+dynamically_filtered_dataset/
+downsampled_dataset/
+motif_0.3/
+motif_0.15/
+short_dataset/
+
 
 test/
 .git
 .vscode
 __pycach__/
 code/__pycache__
-wav_resampled/
+
 visual/
 birdsong_dataset_mono.npz
 code/.ipynb_checkpoints
